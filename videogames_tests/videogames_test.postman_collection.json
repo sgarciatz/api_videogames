@@ -1,0 +1,122 @@
+{
+	"info": {
+		"_postman_id": "3a2faee9-3451-4b61-80d2-0df0a91bd5e4",
+		"name": "videogames_test",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get videogames",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:20083/games",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20083",
+					"path": [
+						"games"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Post videogame",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"gameId\": 300,\n  \"videogame-name\": \"7 Days To Die\",\n  \"genre\": \"Survival\",\n  \"files\": \"images,configuration files, design files\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:20083/games",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20083",
+					"path": [
+						"games"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Delete videogame",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:20083/games/100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20083",
+					"path": [
+						"games",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get videogame stream",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:20083/games/100",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20083",
+					"path": [
+						"games",
+						"100"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Test quality",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:20083/test-quality/100?hardwareTier=MID-END%20hardware",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "20083",
+					"path": [
+						"test-quality",
+						"100"
+					],
+					"query": [
+						{
+							"key": "hardwareTier",
+							"value": "MID-END%20hardware"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
