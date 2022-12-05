@@ -1,0 +1,469 @@
+openapi: 3.0.0
+info:
+  title: Videogames API
+  description: This API is in charge of managing the actions relative to the videogames
+    data
+  version: 1.0.0
+servers:
+- url: /
+paths:
+  /games:
+    get:
+      tags:
+      - game
+      summary: Returns a list with all the videogames from the cloud database.
+      description: Returns a list with all the videogames from the cloud database.
+      operationId: gamesGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Videogame'
+                x-content-type: application/json
+        "404":
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Database not found.
+                x-content-type: text/plain
+      x-swagger-router-controller: Game
+    post:
+      tags:
+      - game
+      summary: Inserts a new game in the cloud database.
+      description: Inserts a new game in the cloud database.
+      operationId: gamesPOST
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Videogame'
+      responses:
+        "201":
+          description: Created
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame inserted successfully.
+                x-content-type: text/plain
+        "400":
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: This game already exists.
+                x-content-type: text/plain
+      x-swagger-router-controller: Game
+  /games/{gameId}:
+    get:
+      tags:
+      - game
+      summary: Returns a videogame by its ID.
+      description: Returns a videogame by its ID.
+      operationId: gamesGameIdGET
+      parameters:
+      - name: gameId
+        in: path
+        description: The identifier of an user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Videogame'
+        "404":
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Game not found.
+                x-content-type: text/plain
+      x-swagger-router-controller: Game
+    delete:
+      tags:
+      - game
+      summary: Delete a videogame given its ID.
+      description: Delete a videogame given its ID.
+      operationId: gamesGameIdDELETE
+      parameters:
+      - name: gameId
+        in: path
+        description: Identifier of an user.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame deleted.
+                x-content-type: text/plain
+        "401":
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized action.
+                x-content-type: text/plain
+        "404":
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame not found.
+                x-content-type: text/plain
+      x-swagger-router-controller: Game
+    patch:
+      tags:
+      - game
+      summary: Updates the videogame data.
+      description: Updates the videogame data.
+      operationId: gamesGameIdPATCH
+      parameters:
+      - name: gameId
+        in: path
+        description: Identifier of a game.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      requestBody:
+        description: Update a videogame with properties to be changed.
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Videogame'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame updated.
+                x-content-type: text/plain
+        "400":
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid parameters.
+                x-content-type: text/plain
+        "401":
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized action.
+                x-content-type: text/plain
+        "404":
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame not found.
+                x-content-type: text/plain
+      x-swagger-router-controller: Game
+  /test-quality/{gameId}:
+    get:
+      tags:
+      - game
+      summary: Test the quality of the chosen videogame from the cloud database
+      description: Test the quality of the chosen videogame from the cloud database
+      operationId: test_qualityGameIdGET
+      parameters:
+      - name: gameId
+        in: path
+        description: Identifier of a game.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      - name: hardwareTier
+        in: query
+        description: "Specify the hardware tier on which the test will be carried\
+          \ out (LOW-END, MID-END or HIGH-END)."
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+          example: MID-END hardware
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/VideogameTest'
+        "404":
+          description: Not Found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame not found.
+                x-content-type: text/plain
+      x-swagger-router-controller: Game
+  /buy-game/{gameId}:
+    post:
+      tags:
+      - game
+      summary: Inserts a new game in the user library database.
+      description: Inserts a new game in the user library database.
+      operationId: buy_gameGameIdPOST
+      parameters:
+      - name: gameId
+        in: path
+        description: ID of game to insert in the user library.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      - name: userId
+        in: query
+        description: ID of user to insert the game.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      responses:
+        "201":
+          description: Created
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame inserted successfully in the user library.
+                x-content-type: text/plain
+        "400":
+          description: Bad request
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Invalid parameters.
+                x-content-type: text/plain
+        "401":
+          description: Unauthorized
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Unauthorized action.
+                x-content-type: text/plain
+      x-swagger-router-controller: Game
+  /gameplay/{gameId}:
+    get:
+      tags:
+      - gameplay
+      summary: "Returns a buffer of frames containing 0, 1 or more frames."
+      description: "Returns a buffer of frames containing 0, 1 or more frames of the\
+        \ videogame session identified by the user identifier and the videogame identifier."
+      operationId: gameplayGameIdGET
+      parameters:
+      - name: gameId
+        in: path
+        description: Identifier of game to play.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      - name: userId
+        in: query
+        description: Identifier of game to play.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FrameBuffer'
+        "404":
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame not found.
+                x-content-type: text/plain
+      x-swagger-router-controller: Gameplay
+    post:
+      tags:
+      - gameplay
+      summary: Send the videogames commands chosen by the user.
+      description: Send the videogames commands chosen by the user.
+      operationId: gameplayGameIdPOST
+      parameters:
+      - name: gameId
+        in: path
+        description: Identifier of game to play.
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      - name: userId
+        in: query
+        description: Identifier of game to play.
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: integer
+          format: int64
+          example: 100
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserInteraction'
+      responses:
+        "200":
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: UserInteraction recieved.
+                x-content-type: text/plain
+        "404":
+          description: Not found
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: Videogame not found.
+                x-content-type: text/plain
+      x-swagger-router-controller: Gameplay
+components:
+  schemas:
+    Videogame:
+      type: object
+      properties:
+        gameId:
+          type: integer
+          example: 100
+        videogame-name:
+          type: string
+          example: God Of War
+        genre:
+          type: string
+          example: Fantasia
+        files:
+          type: string
+          example: "images,configuration files, design files"
+      example:
+        gameId: 100
+        videogame-name: God Of War
+        genre: Fantasia
+        files: "images,configuration files, design files"
+      xml:
+        name: videogame
+    VideogameTest:
+      type: object
+      properties:
+        gameId:
+          type: integer
+          example: 100
+        hardwareTier:
+          type: string
+          example: MID-END hardware
+        latencia:
+          type: string
+          example: 100 ms
+        frecuency:
+          type: string
+          example: 120 fps
+        cpuUtilization:
+          type: string
+          example: 75%
+        gpuUtilization:
+          type: string
+          example: 92%%
+        datetime:
+          pattern: '%Y-%m-%d %H:%M:%S'
+          type: string
+          example: 2022-12-31 23:59:48
+      example:
+        gameId: 100
+        hardwareTier: MID-END hardware
+        cpuUtilization: 75%
+        datetime: 2022-12-31 23:59:48
+        latencia: 100 ms
+        frecuency: 120 fps
+        gpuUtilization: 92%%
+      xml:
+        name: videogameTest
+    FrameBuffer:
+      type: object
+      example:
+      - frame1
+      - frame2
+      - frame3
+      xml:
+        name: frameBuffer
+    UserInteraction:
+      type: object
+      properties:
+        keyCombination:
+          type: string
+          example: "[\"C\",\"Cntrl\",\"Shift\"]"
+        action:
+          type: string
+          example: RELEASE
+      xml:
+        name: userInteraction
