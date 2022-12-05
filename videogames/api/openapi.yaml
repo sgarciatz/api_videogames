@@ -93,7 +93,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Game not found.
+                example: Videogame not found.
                 x-content-type: text/plain
       x-swagger-router-controller: Game
     delete:
@@ -105,7 +105,7 @@ paths:
       parameters:
       - name: gameId
         in: path
-        description: Identifier of an user.
+        description: Identifier of a videogame.
         required: true
         style: simple
         explode: false
@@ -291,7 +291,7 @@ paths:
             text/plain:
               schema:
                 type: string
-                example: Game not found.
+                example: Videogame not found.
                 x-content-type: text/plain
       x-swagger-router-controller: Game
   /gameplay/{gameId}:
@@ -450,10 +450,20 @@ components:
         name: videogameTest
     FrameBuffer:
       type: object
+      properties:
+        frames:
+          type: array
+          example:
+          - frame1
+          - frame2
+          - frame3
+          items:
+            type: string
       example:
-      - frame1
-      - frame2
-      - frame3
+        frames:
+        - frame1
+        - frame2
+        - frame3
       xml:
         name: frameBuffer
     UserInteraction:
