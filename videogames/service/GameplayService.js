@@ -95,7 +95,7 @@ exports.gameplayGameIdGET = function(userId, gameId) {
  * gameId Long Identifier of game to play.
  * returns String
  **/
-exports.gameplayGameIdPOST = function(body, gameId, userId) {
+exports.gameplayGameIdPOST = function(body, userId, gameId) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     const userExists = users.some(user => userId === user.userId);
